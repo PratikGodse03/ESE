@@ -1,0 +1,36 @@
+from sklearn.datasets import fetch_20newsgroups
+
+# Fetch the 20 Newsgroups dataset
+newsgroups_data = fetch_20newsgroups(subset='all', remove=('headers', 'footers', 'quotes'))
+
+# Access the text data and corresponding labels
+X = newsgroups_data.data
+y = newsgroups_data.target
+
+
+
+
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+
+# Assuming you have a dataset X containing English text and y containing corresponding labels/categories
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Vectorize text data into numerical features (word counts)
+vectorizer = CountVectorizer()
+X_train_vec = vectorizer.fit_transform(X_train)
+X_test_vec = vectorizer.transform(X_test)
+
+# Initialize and train the Naive Bayes classifier
+nb_classifier = MultinomialNB()
+nb_classifier.fit(X_train_vec, y_train)
+
+# Predicting classes for test set
+y_pred = nb_classifier.predict(X_test_vec)
+
+# Evaluate the model (e.g., accuracy, confusion matrix, etc.)
+# ...
